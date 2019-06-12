@@ -97,6 +97,9 @@
             </li>
           </ul>
         </nav>
+        <p id="notification" style="display: none">
+          Un nouveau Service Worker est prêt&nbsp;!
+        </p>
         <div>
           <div class="toolBar">
             <button class="is-primary">
@@ -307,12 +310,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
     <script src="src/js/app.js"></script>
     <script src="src/js/maps.js"></script>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("sw.js");
-        });
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>

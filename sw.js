@@ -25,6 +25,7 @@ var filesToCache = [
 // Listen to installation event
 self.addEventListener("install", function(e) {
   //console.log("[ServiceWorker] Install");
+  self.skipWaiting();
   e.waitUntil(
     caches.open(shellCacheName).then(function(cache) {
       console.log("[ServiceWorker] Caching app shell");

@@ -1,16 +1,16 @@
 {
-  "name": "todo",
-  "short_name": "todo",
+  "name": "lieuxlyon",
+  "short_name": "lieuxlyon",
   "author": "simonbdbc",
   "lang": "fr-FR",
   "icons": [
     {
-      "src": "content/img/android-chrome-192x192.png",
+      "src": "src/img/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "content/img/android-chrome-512x512.png",
+      "src": "src/img/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

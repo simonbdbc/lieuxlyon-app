@@ -3,9 +3,18 @@ var shellCacheName = "lieuxlyon";
 var filesToCache = [
   "./",
   "./index.html",
-  "./src/css/screen.min.css",
+  "./src/css/screen.css",
+  "./serviceworker-cache-polyfill.js",
+  "./src/assets/icons/blank-thumbnail.png",
+  "./src/assets/icons/favicon.png",
+  "./src/assets/icons/icon-48.png",
+  "./src/assets/icons/icon-96.png",
+  "./src/assets/icons/icon-128.png",
+  "./src/assets/icons/icon-144.png",
+  "./src/assets/icons/icon-152.png",
+  "./src/assets/icons/icon-196.png",
+  "./src/assets/icons/icon-384.png",
   "./src/js/app.js",
-  // "https://cdn.jsdelivr.net/npm/vue",
   "https://cdn.jsdelivr.net/npm/vue/dist/vue.js",
   "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
 ];

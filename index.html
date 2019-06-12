@@ -53,7 +53,25 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+      integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="src/css/main.css" />
     <link rel="stylesheet" href="src/css/screen.css" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+      crossorigin=""
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   </head>
 
   <body>
@@ -79,7 +97,19 @@
             </li>
           </ul>
         </nav>
-        <main v-if="todoLists.length > 0">
+        <div>
+          <div class="toolBar">
+            <button class="is-primary">
+              Menu
+            </button>
+            <h1>LieuxLyon</h1>
+            <button class="is-primary">
+              Chercher
+            </button>
+          </div>
+        </div>
+        <div id="map"></div>
+        <!-- <main v-if="todoLists.length > 0">
           <header
             v-bind:style="'background-image: url(https://source.unsplash.com/featured/?' + todoLists[currentListIndex].keyword + ')'"
           >
@@ -117,8 +147,8 @@
               </button>
             </li>
           </ul>
-        </main>
-        <main v-else>
+        </main> -->
+        <!-- <main v-else>
           <header
             style="background-image: url(https://source.unsplash.com/featured/?cat)"
           >
@@ -129,7 +159,7 @@
               </button>
             </div>
           </header>
-        </main>
+        </main> -->
       </div>
       <div class="sidebar" v-bind:class="{'is-open' : isSidebarOpen}">
         <div class="sidebar-content">
@@ -276,6 +306,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
     <script src="src/js/app.js"></script>
+    <script src="src/js/maps.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {

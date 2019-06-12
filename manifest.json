@@ -1,8 +1,8 @@
 {
   "name": "todo",
   "short_name": "todo",
-  "author": "Vincent Humeau",
-  "lang": "en-GB",
+  "author": "simonbdbc",
+  "lang": "fr-FR",
   "icons": [
     {
       "src": "content/img/android-chrome-192x192.png",
@@ -19,6 +19,6 @@
   "background_color": "#77c4d3",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/todo/",
-  "start_url": "/todo/"
+  "scope": "/lieuxlyon-app/",
+  "start_url": "/lieuxlyon-app/"
 }

@@ -1,26 +1,39 @@
-var app = new Vue({
-  el: "#app",
-  data: {
-    isNavOpen: false,
-    isSidebarOpen: false,
-    sidebarContentToShow: null,
-    currentListIndex: 0,
-    currentTodoIndex: 0,
-    tempNewList: [
-      {
-        title: null,
-        keyword: null
-      }
-    ],
-    tempNewTodo: [
-      {
-        name: null,
-        isCompleted: false
-      }
-    ],
-    todoLists: []
+var homePage = {
+  template: `
+  <div>
+    <div style="height: 10vh;"></div>
+    <v-card class="px-3" color="primary" dark>
+      <h3 class="display-2">Bienvenue</h3>
+      <span class="subheading">Liste des points touristiques de Lyon.</span>
+    </v-card>
+  </div>`,
+
+  data() {
+    return {
+      email: null,
+      password: null,
+      errorMsg: "",
+      isNavOpen: false,
+      isSidebarOpen: false,
+      sidebarContentToShow: null,
+      currentListIndex: 0,
+      currentTodoIndex: 0,
+      tempNewList: [
+        {
+          title: null,
+          keyword: null
+        }
+      ],
+      tempNewTodo: [
+        {
+          name: null,
+          isCompleted: false
+        }
+      ],
+      todoLists: []
+    };
   },
-  created: function() {
+  created() {
     this.todoLists = JSON.parse(
       localStorage.getItem("todoLocalStorage") || "[]"
     );
@@ -98,4 +111,4 @@ var app = new Vue({
       localStorage.setItem("todoLocalStorage", JSON.stringify(this.todoLists));
     }
   }
-});
+};

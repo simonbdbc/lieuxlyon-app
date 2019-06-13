@@ -1,73 +1,85 @@
-new Vue({
-  el: "#app",
-  data: {
-    aMarkerArea: null,
-    aCoord: null,
-    layers: [
-      {
-        id: 0,
-        name: "Bogart's Smokehouse",
-        type: "marker",
-        coords: [45.456789, 4.391441]
-        // coords: [45.4560, 4.3980],
-      },
-      {
-        id: 1,
-        name: "Pappy's Smokehouse",
-        type: "marker",
-        coords: [45.4565, 4.3998],
-        color: "blue"
-      },
-      {
-        id: 2,
-        name: "Broadway Oyster Bar",
-        type: "marker",
-        coords: [45.456523, 4.398881],
-        color: "blue"
-      },
-      {
-        id: 3,
-        name: "Charlie Gitto's On the Hill",
-        type: "marker",
-        coords: [45.453722, 4.396591],
-        color: "blue"
-      },
-      {
-        id: 4,
-        name: "Sugarfire",
-        type: "marker",
-        coords: [45.458688, 4.39436],
-        color: "blue"
-      },
-      {
-        id: 5,
-        name: "The Shaved Duck",
-        type: "marker",
-        coords: [45.459831, 4.384232],
-        color: "blue"
-      },
-      {
-        id: 6,
-        name: "Mango Restaurant",
-        type: "marker",
-        coords: [45.459921, 4.402685],
-        color: "blue"
-      },
-      {
-        id: 7,
-        name: "Zia's Restaurant",
-        type: "marker",
-        coords: [45.45315, 4.387364],
-        color: "blue"
-      },
-      {
-        id: 8,
-        name: "Anthonio's Taverna",
-        type: "marker",
-        coords: [45.455678, 4.390197],
-        color: "blue"
-      }
-    ]
+var mapsPage = {
+  template: `
+  <div>
+    <div style="height: 7vh;"></div>
+    <v-card class="px-3" style="height: 93vh;" color="primary" dark>
+      <h3 class="display-2">Bienvenue</h3>
+      <span class="subheading">Liste des points touristiques de Lyon.</span>
+      <div id="map"></div>
+    </v-card>
+  </div>`,
+
+  data() {
+    return {
+      aMarkerArea: null,
+      aCoord: null,
+      layers: TOURISME
+      //   layers: [
+      //     {
+      //       id: 0,
+      //       name: "Bogart's Smokehouse",
+      //       type: "marker",
+      //       coords: [45.456789, 4.391441]
+      //       // coords: [45.4560, 4.3980],
+      //     },
+      //     {
+      //       id: 1,
+      //       name: "Pappy's Smokehouse",
+      //       type: "marker",
+      //       coords: [45.4565, 4.3998],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 2,
+      //       name: "Broadway Oyster Bar",
+      //       type: "marker",
+      //       coords: [45.456523, 4.398881],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 3,
+      //       name: "Charlie Gitto's On the Hill",
+      //       type: "marker",
+      //       coords: [45.453722, 4.396591],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 4,
+      //       name: "Sugarfire",
+      //       type: "marker",
+      //       coords: [45.458688, 4.39436],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 5,
+      //       name: "The Shaved Duck",
+      //       type: "marker",
+      //       coords: [45.459831, 4.384232],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 6,
+      //       name: "Mango Restaurant",
+      //       type: "marker",
+      //       coords: [45.459921, 4.402685],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 7,
+      //       name: "Zia's Restaurant",
+      //       type: "marker",
+      //       coords: [45.45315, 4.387364],
+      //       color: "blue"
+      //     },
+      //     {
+      //       id: 8,
+      //       name: "Anthonio's Taverna",
+      //       type: "marker",
+      //       coords: [45.455678, 4.390197],
+      //       color: "blue"
+      //     }
+      //   ]
+    };
   },
   mounted() {
     this.loadLeaflet();
@@ -75,11 +87,14 @@ new Vue({
   },
   methods: {
     loadLeaflet() {
+      console.log(SERVICE);
+      console.log(TOURISME);
       // Center of the map
-      var center = [45.456789, 4.391441];
-
+      var center = [45.757547, 4.832782];
+      // lat: 45.757547567749775;
+      // lng: 4.832782745361329;
       // Create the map
-      var map = L.map("map").setView(center, 15);
+      var map = L.map("map").setView(center, 14);
 
       // Set up the OSM layer
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -92,7 +107,9 @@ new Vue({
       // L.marker(center).addTo(map);
 
       this.layers.forEach(layer => {
-        L.marker(layer.coords).addTo(map);
+        L.marker([layer.geometry.coordinates[1], layer.geometry.coordinates[0]])
+          .addTo(map)
+          .bindPopup("<p>" + layer.properties.nom + "</p>");
       });
 
       // Initialise the FeatureGroup to store editable layers
@@ -150,8 +167,8 @@ new Vue({
           var oCoordMinMax = calculMinMax(aMarkerArea);
 
           layers.forEach(layer => {
-            sLatitude = layer.coords[0];
-            sLongitude = layer.coords[1];
+            sLatitude = layer.geometry.coordinates[1];
+            sLongitude = layer.geometry.coordinates[0];
             var bValide = false;
 
             // console.log(oCoordMinMax.lat.min.deg, sLatitude, oCoordMinMax.lat.max.deg, sLatitude);
@@ -250,10 +267,13 @@ new Vue({
             }
 
             var sColorIcon = bValide ? greenIcon : redIcon;
-            L.marker(layer.coords, {
-              icon: sColorIcon
-            })
-              .bindPopup(layer.id.toString())
+            L.marker(
+              [layer.geometry.coordinates[1], layer.geometry.coordinates[0]],
+              {
+                icon: sColorIcon
+              }
+            )
+              .bindPopup(layer.properties.id.toString())
               .addTo(map);
           });
         }
@@ -477,4 +497,4 @@ new Vue({
     },
     initLayers() {}
   }
-});
+};

@@ -9,5 +9,6 @@
 }
 
 #map {
-  height: 90vh;
+  height: 80vh;
+  max-height: 85%;
 }

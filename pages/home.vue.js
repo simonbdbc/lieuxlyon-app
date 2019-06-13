@@ -1,36 +1,42 @@
 var homePage = {
   template: `
-  <div>
-    <div style="height: 10vh;"></div>
-    <v-card class="px-3" color="primary" dark>
-      <h3 class="display-2">Bienvenue</h3>
-      <span class="subheading">Liste des points touristiques de Lyon.</span>
+  <div class="page-container">
+    <v-card class="px-3 white--text" color="blue-grey darken-2" >
+      <span class="subheading">Voici la liste des points touristiques de Lyon :</span>
     </v-card>
+
+    <v-card>
+        <v-container
+          fluid
+          grid-list-lg
+        >
+          <v-layout v-for="item in cardItems" :key="item.properties.id" row wrap>
+            <v-flex xs12>
+              <v-card color="blue-grey darken-2" class="white--text">
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{item.properties.nom}}</div>
+                    <span>{{item.properties.adresse}}</span>
+                    <span>{{item.properties.codepostal}}</span>
+                    <span>{{item.properties.commune}}</span>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn flat dark>Voir sur la carte</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card>
   </div>`,
 
   data() {
     return {
-      email: null,
-      password: null,
-      errorMsg: "",
       isNavOpen: false,
       isSidebarOpen: false,
       sidebarContentToShow: null,
-      currentListIndex: 0,
-      currentTodoIndex: 0,
-      tempNewList: [
-        {
-          title: null,
-          keyword: null
-        }
-      ],
-      tempNewTodo: [
-        {
-          name: null,
-          isCompleted: false
-        }
-      ],
-      todoLists: []
+      cardItems: TOURISME
     };
   },
   created() {

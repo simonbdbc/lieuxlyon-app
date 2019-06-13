@@ -1,14 +1,25 @@
-.toolBar {
+.toolbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100vw;
-  height: 10vh;
+  height: 8vh;
   padding: 0 10px 0 10px;
   border-bottom: 1px solid #77c4d3;
 }
 
+aside {
+  z-index: 10000 !important;
+}
+
+.page-container {
+  width: 100vw;
+  height: 92vh;
+  overflow-x: scroll;
+}
+
 #map {
-  height: 80vh;
-  max-height: 85%;
+  height: 87vh;
+  max-height: 96%;
+  z-index: 1;
 }

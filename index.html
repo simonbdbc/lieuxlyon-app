@@ -59,9 +59,11 @@
       integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
       crossorigin=""
     />
+
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/screen.css" />
-    <link rel="stylesheet" href="css/site.css" />
+    <!-- <link rel="stylesheet" href="css/screen.css" /> -->
+    <!-- <link rel="stylesheet" href="css/site.css" /> -->
+
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script
       src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
@@ -74,40 +76,26 @@
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   </head>
-  <!-- development version, includes helpful console warnings -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
-  <!-- production version, optimized for size and speed -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-
-  <!-- <script src="https://npmcdn.com/vue-router/dist/vue-router.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
-  <script src="pages/home.js"></script>
-  <script src="pages/maps.js"></script>
-  <script src="services/api.js"></script>
-  <script src="router.js"></script>
-  <script src="app.js"></script> -->
-
   <body>
     <div id="app">
       <toolbar-vue :title="titre"></toolbar-vue>
-      <!-- <toolbar-vue></toolbar-vue> -->
-      <!-- <toolbar-menu></toolbar-menu> -->
-      <!-- <router-link to="/">/home</router-link>
-      <router-link to="/maps">/foo</router-link> -->
-
       <router-view></router-view>
     </div>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
     <script src="https://unpkg.com/http-vue-loader"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="./services/api.js"></script>
     <script src="./data/tourisme.js"></script>
 
-    <!-- Vue Pages and Components here -->
+    <!-- Vue Pages and Components -->
     <script src="./pages/home.vue.js"></script>
     <script src="./pages/maps.vue.js"></script>
     <script src="./pages/components/toolbar.vue.js"></script>

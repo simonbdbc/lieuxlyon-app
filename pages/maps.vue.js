@@ -1,12 +1,9 @@
 var mapsPage = {
   template: `
-  <div>
-    <div style="height: 7vh;"></div>
-    <v-card class="px-3" style="height: 93vh;" color="primary" dark>
-      <h3 class="display-2">Bienvenue</h3>
-      <span class="subheading">Liste des points touristiques de Lyon.</span>
-      <div id="map"></div>
-    </v-card>
+  <div class="page-container">
+    <v-container fluid grid-list-lg>
+        <div id="map"></div>
+    </v-container>
   </div>`,
 
   data() {

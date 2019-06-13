@@ -2,10 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100vw;
+  height: 10vh;
   padding: 0 10px 0 10px;
   border-bottom: 1px solid #77c4d3;
 }
 
 #map {
-  height: 95vh;
+  height: 90vh;
 }

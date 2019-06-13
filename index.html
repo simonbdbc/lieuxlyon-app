@@ -9,7 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Lieux Lyon</title>
     <meta name="description" content="Lieux Lyon" />
-    <link rel="manifest" href="manifest.json" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -72,6 +71,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <!-- <link rel="manifest" href="manifest.json" /> -->
+    <link rel="manifest" href="manifest.webmanifest" />
   </head>
 
   <body>
@@ -98,8 +99,11 @@
           </ul>
         </nav>
         <p id="notification" style="display: none">
-          Un nouveau Service Worker est prêt&nbsp;!
+          <button id="on-activation-request">
+            Un nouveau Service Worker est prêt&nbsp;!
+          </button>
         </p>
+
         <div>
           <div class="toolBar">
             <button class="is-primary">

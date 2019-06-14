@@ -1,19 +1,62 @@
-const SERVICE = (function () {
+const API = (function() {
   var self = {};
-  var variablePrivee = 10;
 
-  self.attributPublic = "bonjour";
+  // self.attributPublic = "bonjour";
+  //   self.glData = null;
 
   function methodePrivee() {
-    console.log('Je suis encapsulée !');
+    console.log("Je suis encapsulée !");
   }
 
-  self.methodePublique = function () {
-    console.log('Je suis accessible !');
+  self.add = function() {
+    console.log("Je suis accessible !");
+  };
+
+  self.get = async function() {
+    return new Promise((resolve, reject) => {
+      const url = "http://192.168.33.12/api/data/read.php";
+      return axios
+        .get(url)
+        .then(function(response) {
+          resolve({
+            title: "Success!!!",
+            body: "We got an example success!",
+            config: {
+              closeOnClick: true
+            }
+          });
+        })
+        .catch(function(error) {
+          reject({
+            title: "Error!!!",
+            body: "We got an example error!",
+            config: {
+              closeOnClick: true
+            }
+          });
+        });
+    });
   };
 
   return self;
 })();
+
+// const API = (function () {
+//   var self = {};
+//   var variablePrivee = 10;
+
+//   self.attributPublic = "bonjour";
+
+//   function methodePrivee() {
+//     console.log('Je suis encapsulée !');
+//   }
+
+//   self.methodePublique = function () {
+//     console.log('Je suis accessible !');
+//   };
+
+//   return self;
+// })();
 
 // (function() {
 //   var Service = (window.APP.Service = Object.extend(Object, {

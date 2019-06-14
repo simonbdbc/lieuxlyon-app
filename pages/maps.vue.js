@@ -1,91 +1,75 @@
 var mapsPage = {
   template: `
   <div class="page-container">
+  <section v-if="errored" class="error-section">
+    <p>Nous sommes désolés, nous ne sommes pas en mesure de récupérer ces informations pour le moment. Veuillez réessayer ultérieurement.</p>
+  </section>
+
+  <section v-else>
+    <div v-if="loading">Chargement...</div>
+  </section>
+  <section>
     <v-container fluid grid-list-lg>
         <div id="map"></div>
     </v-container>
-  </div>`,
+  </section>
+
+    </div>`,
 
   data() {
     return {
       aMarkerArea: null,
       aCoord: null,
-      layers: TOURISME
-      //   layers: [
-      //     {
-      //       id: 0,
-      //       name: "Bogart's Smokehouse",
-      //       type: "marker",
-      //       coords: [45.456789, 4.391441]
-      //       // coords: [45.4560, 4.3980],
-      //     },
-      //     {
-      //       id: 1,
-      //       name: "Pappy's Smokehouse",
-      //       type: "marker",
-      //       coords: [45.4565, 4.3998],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 2,
-      //       name: "Broadway Oyster Bar",
-      //       type: "marker",
-      //       coords: [45.456523, 4.398881],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 3,
-      //       name: "Charlie Gitto's On the Hill",
-      //       type: "marker",
-      //       coords: [45.453722, 4.396591],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 4,
-      //       name: "Sugarfire",
-      //       type: "marker",
-      //       coords: [45.458688, 4.39436],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 5,
-      //       name: "The Shaved Duck",
-      //       type: "marker",
-      //       coords: [45.459831, 4.384232],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 6,
-      //       name: "Mango Restaurant",
-      //       type: "marker",
-      //       coords: [45.459921, 4.402685],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 7,
-      //       name: "Zia's Restaurant",
-      //       type: "marker",
-      //       coords: [45.45315, 4.387364],
-      //       color: "blue"
-      //     },
-      //     {
-      //       id: 8,
-      //       name: "Anthonio's Taverna",
-      //       type: "marker",
-      //       coords: [45.455678, 4.390197],
-      //       color: "blue"
-      //     }
-      //   ]
+      // layers: aTourismeLocal,
+      layers: null,
+      glData: null,
+      loading: true,
+      errored: false
+      // layers: null
     };
   },
-  mounted() {
-    this.loadLeaflet();
-    // , this.initLayers()
+  created() {
+    // this.requestApi();
+    // this.loadLeaflet();
   },
+  mounted() {
+    this.requestApi();
+    // this.loadLeaflet();
+  },
+  // created() {
+  //   console.log(this.glData);
+  //   if (this.glData != null) {
+  //     this.layers = this.glData;
+  //   } else {
+  //     this.layers = aTourismeLocal;
+  //   }
+  // },
   methods: {
+    requestApi() {
+      axios
+        .get("http://192.168.33.12/api/data/read.php")
+        .then(response => {
+          this.glData = response.data.GL_DATA;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+        .finally(() => {
+          console.log(this.glData);
+          if (this.glData != null) {
+            this.layers = this.glData;
+          } else {
+            this.layers = aTourismeLocal;
+          }
+          this.loadLeaflet();
+          this.loading = false;
+        });
+    },
     loadLeaflet() {
-      console.log(SERVICE);
-      console.log(TOURISME);
+      console.log(this.layers);
+      // console.log(aTourismeJSON);
       // Center of the map
       var center = [45.757547, 4.832782];
       // lat: 45.757547567749775;
@@ -103,180 +87,195 @@ var mapsPage = {
       // add a marker in the given location
       // L.marker(center).addTo(map);
 
+      // this.layers.forEach(layer => {
+      //   L.marker([layer.geometry.coordinates[1], layer.geometry.coordinates[0]])
+      //     .addTo(map)
+      //     .bindPopup("<p>" + layer.properties.nom + "</p>");
+      // });
+
+      var markersCluster = new L.MarkerClusterGroup();
+
       this.layers.forEach(layer => {
-        L.marker([layer.geometry.coordinates[1], layer.geometry.coordinates[0]])
-          .addTo(map)
-          .bindPopup("<p>" + layer.properties.nom + "</p>");
+        var latLng = new L.LatLng(
+          layer.geometry.coordinates[1],
+          layer.geometry.coordinates[0]
+        );
+        var marker = new L.Marker(latLng, {
+          title: layer.properties.nom
+        });
+        markersCluster.addLayer(marker);
       });
+
+      map.addLayer(markersCluster);
 
       // Initialise the FeatureGroup to store editable layers
-      var editableLayers = new L.FeatureGroup();
-      map.addLayer(editableLayers);
+      //   var editableLayers = new L.FeatureGroup();
+      //   map.addLayer(editableLayers);
 
-      var drawPluginOptions = {
-        position: "topright",
-        draw: {
-          polygon: {
-            allowIntersection: false, // Restricts shapes to simple polygons
-            drawError: {
-              color: "#e1e100", // Color the shape will turn when intersects
-              message: "<strong>Erreur !<strong>" // Message that will show when intersect
-            },
-            shapeOptions: {
-              color: "#97009c"
-            }
-          },
-          // disable toolbar item by setting it to false
-          polyline: false, // Turns off this drawing tool
-          circle: {},
-          rectangle: false,
-          marker: {},
-          circlemarker: false
-        }
-      };
+      //   var drawPluginOptions = {
+      //     position: "topright",
+      //     draw: {
+      //       polygon: {
+      //         allowIntersection: false, // Restricts shapes to simple polygons
+      //         drawError: {
+      //           color: "#e1e100", // Color the shape will turn when intersects
+      //           message: "<strong>Erreur !<strong>" // Message that will show when intersect
+      //         },
+      //         shapeOptions: {
+      //           color: "#97009c"
+      //         }
+      //       },
+      //       // disable toolbar item by setting it to false
+      //       polyline: false, // Turns off this drawing tool
+      //       circle: {},
+      //       rectangle: false,
+      //       marker: {},
+      //       circlemarker: false
+      //     }
+      //   };
 
-      // Initialise the draw control and pass it the FeatureGroup of editable layers
-      var drawControl = new L.Control.Draw(drawPluginOptions);
-      map.addControl(drawControl);
+      //   // Initialise the draw control and pass it the FeatureGroup of editable layers
+      //   var drawControl = new L.Control.Draw(drawPluginOptions);
+      //   map.addControl(drawControl);
 
-      var layers = this.layers;
+      //   var layers = this.layers;
 
-      map.on("draw:created", function(e) {
-        // debugger;
-        var type = e.layerType,
-          layer = e.layer;
+      //   map.on("draw:created", function(e) {
+      //     // debugger;
+      //     var type = e.layerType,
+      //       layer = e.layer;
 
-        // debugger;
-        if (type === "marker") {
-          console.log(layer);
-          layer.bindPopup(layer._latlngs);
-        }
-        if (type === "polygon") {
-          // console.log(e.layer._latlngs[0]);
-          var aMarkerArea = e.layer._latlngs[0];
+      //     // debugger;
+      //     if (type === "marker") {
+      //       console.log(layer);
+      //       layer.bindPopup(layer._latlngs);
+      //     }
+      //     if (type === "polygon") {
+      //       // console.log(e.layer._latlngs[0]);
+      //       var aMarkerArea = e.layer._latlngs[0];
 
-          for (let i = 0; i < aMarkerArea.length; i++) {
-            aMarkerArea[i].lat = nArrondi(aMarkerArea[i].lat);
-            aMarkerArea[i].lng = nArrondi(aMarkerArea[i].lng);
-          }
-          // console.log(aMarkerArea);
+      //       for (let i = 0; i < aMarkerArea.length; i++) {
+      //         aMarkerArea[i].lat = nArrondi(aMarkerArea[i].lat);
+      //         aMarkerArea[i].lng = nArrondi(aMarkerArea[i].lng);
+      //       }
+      //       // console.log(aMarkerArea);
 
-          var oCoordMinMax = calculMinMax(aMarkerArea);
+      //       var oCoordMinMax = calculMinMax(aMarkerArea);
 
-          layers.forEach(layer => {
-            sLatitude = layer.geometry.coordinates[1];
-            sLongitude = layer.geometry.coordinates[0];
-            var bValide = false;
+      //       layers.forEach(layer => {
+      //         sLatitude = layer.geometry.coordinates[1];
+      //         sLongitude = layer.geometry.coordinates[0];
+      //         var bValide = false;
 
-            // console.log(oCoordMinMax.lat.min.deg, sLatitude, oCoordMinMax.lat.max.deg, sLatitude);
-            if (
-              oCoordMinMax.lat.min.deg < sLatitude &&
-              oCoordMinMax.lat.max.deg > sLatitude
-            ) {
-              // console.log(oCoordMinMax.lng.min.deg, sLongitude, oCoordMinMax.lng.max.deg, sLongitude);
-              if (
-                oCoordMinMax.lng.min.deg < sLongitude &&
-                oCoordMinMax.lng.max.deg > sLongitude
-              ) {
-                bValide = true;
-              }
-            }
+      //         // console.log(oCoordMinMax.lat.min.deg, sLatitude, oCoordMinMax.lat.max.deg, sLatitude);
+      //         if (
+      //           oCoordMinMax.lat.min.deg < sLatitude &&
+      //           oCoordMinMax.lat.max.deg > sLatitude
+      //         ) {
+      //           // console.log(oCoordMinMax.lng.min.deg, sLongitude, oCoordMinMax.lng.max.deg, sLongitude);
+      //           if (
+      //             oCoordMinMax.lng.min.deg < sLongitude &&
+      //             oCoordMinMax.lng.max.deg > sLongitude
+      //           ) {
+      //             bValide = true;
+      //           }
+      //         }
 
-            var greenIcon = new L.Icon({
-              iconUrl:
-                "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-              shadowUrl:
-                "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
-              shadowSize: [41, 41]
-            });
-            var redIcon = new L.Icon({
-              iconUrl:
-                "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-              shadowUrl:
-                "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
-              shadowSize: [41, 41]
-            });
+      //         var greenIcon = new L.Icon({
+      //           iconUrl:
+      //             "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+      //           shadowUrl:
+      //             "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+      //           iconSize: [25, 41],
+      //           iconAnchor: [12, 41],
+      //           popupAnchor: [1, -34],
+      //           shadowSize: [41, 41]
+      //         });
+      //         var redIcon = new L.Icon({
+      //           iconUrl:
+      //             "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+      //           shadowUrl:
+      //             "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+      //           iconSize: [25, 41],
+      //           iconAnchor: [12, 41],
+      //           popupAnchor: [1, -34],
+      //           shadowSize: [41, 41]
+      //         });
 
-            var aLineArea = aCreateLineArea(aMarkerArea);
+      //         var aLineArea = aCreateLineArea(aMarkerArea);
 
-            var aListPointLat = [];
-            var aListPointLng = [];
+      //         var aListPointLat = [];
+      //         var aListPointLng = [];
 
-            aLineArea.forEach(aCoord => {
-              var oLineMinMax = calculMinMax(aCoord);
+      //         aLineArea.forEach(aCoord => {
+      //           var oLineMinMax = calculMinMax(aCoord);
 
-              if (
-                oLineMinMax.lat.min.deg < sLatitude &&
-                sLatitude < oLineMinMax.lat.max.deg
-              ) {
-                var aInterPointLat = calculPointIntersectionLatitude(
-                  aCoord,
-                  sLatitude
-                );
-                aListPointLng.push(aInterPointLat[0].lng);
-              }
-              if (
-                oLineMinMax.lng.min.deg < sLongitude &&
-                sLongitude < oLineMinMax.lng.max.deg
-              ) {
-                var aInterPointLng = calculPointIntersectionLongitude(
-                  aCoord,
-                  sLongitude
-                );
-                aListPointLat.push(aInterPointLng[0].lat);
-              }
-            });
+      //           if (
+      //             oLineMinMax.lat.min.deg < sLatitude &&
+      //             sLatitude < oLineMinMax.lat.max.deg
+      //           ) {
+      //             var aInterPointLat = calculPointIntersectionLatitude(
+      //               aCoord,
+      //               sLatitude
+      //             );
+      //             aListPointLng.push(aInterPointLat[0].lng);
+      //           }
+      //           if (
+      //             oLineMinMax.lng.min.deg < sLongitude &&
+      //             sLongitude < oLineMinMax.lng.max.deg
+      //           ) {
+      //             var aInterPointLng = calculPointIntersectionLongitude(
+      //               aCoord,
+      //               sLongitude
+      //             );
+      //             aListPointLat.push(aInterPointLng[0].lat);
+      //           }
+      //         });
 
-            console.log(aListPointLat);
-            console.log(aListPointLng);
+      //         console.log(aListPointLat);
+      //         console.log(aListPointLng);
 
-            //TODO Revoir le tri par ordre croissant
-            aListPointLat.sort(function(a1, b1) {
-              return a1 - b1;
-            });
-            aListPointLng.sort(function(a2, b2) {
-              return a2 - b2;
-            });
+      //         //TODO Revoir le tri par ordre croissant
+      //         aListPointLat.sort(function(a1, b1) {
+      //           return a1 - b1;
+      //         });
+      //         aListPointLng.sort(function(a2, b2) {
+      //           return a2 - b2;
+      //         });
 
-            console.log(aListPointLat);
-            console.log(aListPointLng);
+      //         console.log(aListPointLat);
+      //         console.log(aListPointLng);
 
-            var aListPointLat = aCreateLine(aListPointLat);
-            var aListPointLng = aCreateLine(aListPointLng);
+      //         var aListPointLat = aCreateLine(aListPointLat);
+      //         var aListPointLng = aCreateLine(aListPointLng);
 
-            //TODO acceder aux array aListPointLat et aListePointLng
+      //         //TODO acceder aux array aListPointLat et aListePointLng
 
-            console.log(aListPointLat);
-            console.log(aListPointLng);
+      //         console.log(aListPointLat);
+      //         console.log(aListPointLng);
 
-            bValide = false;
-            if (
-              bCheckIsLatInArea(aListPointLat, sLatitude) &&
-              bCheckIsLngInArea(aListPointLng, sLongitude)
-            ) {
-              bValide = true;
-            }
+      //         bValide = false;
+      //         if (
+      //           bCheckIsLatInArea(aListPointLat, sLatitude) &&
+      //           bCheckIsLngInArea(aListPointLng, sLongitude)
+      //         ) {
+      //           bValide = true;
+      //         }
 
-            var sColorIcon = bValide ? greenIcon : redIcon;
-            L.marker(
-              [layer.geometry.coordinates[1], layer.geometry.coordinates[0]],
-              {
-                icon: sColorIcon
-              }
-            )
-              .bindPopup(layer.properties.id.toString())
-              .addTo(map);
-          });
-        }
+      //         var sColorIcon = bValide ? greenIcon : redIcon;
+      //         L.marker(
+      //           [layer.geometry.coordinates[1], layer.geometry.coordinates[0]],
+      //           {
+      //             icon: sColorIcon
+      //           }
+      //         )
+      //           .bindPopup(layer.properties.id.toString())
+      //           .addTo(map);
+      //       });
+      //     }
 
-        editableLayers.addLayer(layer);
-      });
+      //     editableLayers.addLayer(layer);
+      //   });
 
       //////////////////////
       // Methodes utiles

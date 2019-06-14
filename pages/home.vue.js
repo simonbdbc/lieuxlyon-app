@@ -5,6 +5,14 @@ var homePage = {
       <span class="subheading">Voici la liste des points touristiques de Lyon :</span>
     </v-card>
 
+  <section v-if="errored">
+    <p>Nous sommes désolés, nous ne sommes pas en mesure de récupérer toutes les informations pour le moment. Veuillez réessayer ultérieurement.</p>
+  </section>
+
+  <section v-else>
+    <div v-if="loading">Chargement...</div>
+    </section>
+    <section v-if="bShow">
     <v-card>
         <v-container
           fluid
@@ -29,6 +37,8 @@ var homePage = {
           </v-layout>
         </v-container>
       </v-card>
+  </section>
+
   </div>`,
 
   data() {
@@ -36,85 +46,54 @@ var homePage = {
       isNavOpen: false,
       isSidebarOpen: false,
       sidebarContentToShow: null,
-      cardItems: TOURISME
+      // cardItems: aTourismeJSON
+      // glPromise: API.get(),
+      cardItems: null,
+      glData: null,
+      bShow: false,
+      loading: true,
+      errored: false
     };
   },
+  mounted() {
+    this.requestApi();
+  },
   created() {
-    this.todoLists = JSON.parse(
-      localStorage.getItem("todoLocalStorage") || "[]"
-    );
+    // console.log(this.glData);
+    // if (this.glData != null) {
+    //   this.cardItems = this.glData;
+    // } else {
+    //   this.cardItems = aTourismeLocal;
+    // }
   },
-  watch: {
-    todoLists: {
-      handler() {
-        this.updateTodoLocalStorage();
-      },
-      deep: true
-    }
-  },
+  watch: {},
   methods: {
-    totalTodosCompleted: function(i) {
-      var total = 0;
-      for (var j = 0; j < this.todoLists[i].items.length; j++) {
-        if (this.todoLists[i].items[j].isCompleted) {
-          total++;
-        }
-      }
-      return total;
+    requestApi() {
+      axios
+        .get("http://192.168.33.12/api/data/read.php")
+        .then(response => {
+          this.glData = response.data.GL_DATA;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+        .finally(() => {
+          console.log(this.glData);
+          if (this.glData != null) {
+            this.cardItems = this.glData;
+          } else {
+            this.cardItems = aTourismeLocal;
+          }
+          this.bShow = true;
+          this.loading = false;
+        });
     },
     openSidebar: function(contentToShow) {
       this.isSidebarOpen = true;
       this.isNavOpen = false;
       this.sidebarContentToShow = contentToShow;
-    },
-    addNewList: function() {
-      var listTitle = this.tempNewList.title;
-      var listKeyword = this.tempNewList.keyword;
-      if (listTitle == null) {
-        listTitle = "🕵️‍ List with no name";
-      }
-      if (listKeyword == null) {
-        listKeyword = "earth";
-      }
-      this.todoLists.push({
-        title: listTitle,
-        keyword: listKeyword,
-        items: []
-      });
-      this.currentListIndex = this.todoLists.length - 1;
-      this.isSidebarOpen = false;
-      this.tempNewList.title = null;
-      this.tempNewList.keyword = null;
-    },
-    deleteList: function() {
-      this.todoLists.splice(this.currentListIndex, 1);
-      this.currentListIndex = 0;
-      this.isSidebarOpen = false;
-    },
-    addNewTodo: function() {
-      var todoName = this.tempNewTodo.name;
-      var todoCompleted = this.tempNewTodo.isCompleted;
-      if (todoName == null) {
-        todoName = "🕵️‍ unnamed todo";
-      }
-      this.todoLists[this.currentListIndex].items.push({
-        name: todoName,
-        isCompleted: todoCompleted
-      });
-      this.isSidebarOpen = false;
-      this.tempNewTodo.name = null;
-      this.tempNewTodo.isCompleted = false;
-    },
-    deleteTodo: function() {
-      this.todoLists[this.currentListIndex].items.splice(
-        this.currentTodoIndex,
-        1
-      );
-      this.isSidebarOpen = false;
-      this.currentTodoIndex = 0;
-    },
-    updateTodoLocalStorage: function() {
-      localStorage.setItem("todoLocalStorage", JSON.stringify(this.todoLists));
     }
   }
 };

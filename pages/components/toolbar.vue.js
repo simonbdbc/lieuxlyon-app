@@ -1,6 +1,6 @@
 Vue.component("toolbar-vue", {
   template: `
-  <div>
+  <div class="toolbar-container">
     <v-navigation-drawer absolute temporary v-model="menu">
         <v-list class="pa-1">
             <v-list-tile avatar>
@@ -8,7 +8,7 @@ Vue.component("toolbar-vue", {
                 <v-icon>dashboard</v-icon>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                <v-list-tile-title>Menu</v-list-tile-title>
+                <v-list-tile-title>Lieux Lyon</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
             </v-list>    

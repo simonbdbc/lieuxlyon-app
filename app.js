@@ -31,7 +31,12 @@ var app = new Vue({
   watch: {},
   mounted() {},
   data: {
-    titre: "Lieux Lyon"
+    titre: "Lieux Lyon",
+    snackbar: false,
+    color: "",
+    mode: "",
+    timeout: 6000,
+    text: "Une nouvelle version de l'application est disponible."
   },
   methods: {},
   router

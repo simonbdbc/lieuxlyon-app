@@ -95,6 +95,10 @@
     <div id="app">
       <toolbar-vue :title="titre"></toolbar-vue>
       <router-view></router-view>
+      <div id="sw-notification">
+        A new version of this app is available. Click <a id="reload">here</a> to
+        update.
+      </div>
     </div>
 
     <!-- development version, includes helpful console warnings -->
@@ -115,5 +119,53 @@
     <script src="./pages/maps.vue.js"></script>
     <script src="./pages/components/toolbar.vue.js"></script>
     <script src="./app.js"></script>
+    <script>
+      let newWorker;
+
+      function showUpdateBar() {
+        let notification = document.getElementById("sw-notification");
+        notification.className = "show";
+      }
+
+      // The click event on the notification
+      document.getElementById("reload").addEventListener("click", function() {
+        newWorker.postMessage({ action: "skipWaiting" });
+      });
+
+      if ("serviceWorker" in navigator) {
+        // Register the service worker
+        navigator.serviceWorker.register("/sw.js").then(function(registration) {
+          registration.addEventListener("updatefound", () => {
+            // An updated service worker has appeared in registration.installing!
+            newWorker = registration.installing;
+
+            newWorker.addEventListener("statechange", () => {
+              // Has service worker state changed?
+              switch (newWorker.state) {
+                case "installed":
+                  // There is a new service worker available, show the notification
+                  if (navigator.serviceWorker.controller) {
+                    // new update available
+                    showUpdateBar();
+                  }
+                  // No update available
+                  break;
+              }
+            });
+          });
+        });
+        let refreshing;
+        // The event listener that is fired when the service worker updates
+        // Here we reload the page
+        navigator.serviceWorker.addEventListener(
+          "controllerchange",
+          function() {
+            if (refreshing) return;
+            window.location.reload();
+            refreshing = true;
+          }
+        );
+      }
+    </script>
   </body>
 </html>

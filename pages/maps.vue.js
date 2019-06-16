@@ -11,7 +11,7 @@ var mapsPage = {
   <section>
   <v-btn v-on:click="getLocation();">Voir sur la carte</v-btn>
     <v-container fluid grid-list-lg>
-        <div id="map"></div>
+       <div id="container-map"></div>
     </v-container>
   </section>
 
@@ -24,6 +24,7 @@ var mapsPage = {
       aCoord: null,
       layers: null,
       glData: null,
+      myLocation: null,
       loading: true,
       errored: false
     };
@@ -67,6 +68,12 @@ var mapsPage = {
         let lng = this.pointCenter.geometry.coordinates[0];
         var center = [lat, lng];
         var zoom = 19;
+      } else if (this.myLocation != null) {
+        // Center of the map
+        let lat = this.myLocation.latitude;
+        let lng = this.myLocation.longitude;
+        var center = [lat, lng];
+        var zoom = 19;
       } else {
         // Center of the map
         var center = [45.757547, 4.832782];
@@ -75,8 +82,11 @@ var mapsPage = {
         var zoom = 14;
       }
 
+      document.getElementById("container-map").innerHTML =
+        "<div id='map' style='width: 100%; height: 100%;'></div>";
+
       // Create the map
-      var map = L.map("map").setView(center, zoom);
+      var map = new L.map("map").setView(center, zoom);
 
       // Set up the OSM layer
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -132,11 +142,13 @@ var mapsPage = {
     },
     //function that retrieves the position
     showPosition(position) {
-      var location = {
+      this.myLocation = {
         longitude: position.coords.longitude,
-        latitude: position.coords.latitude
+        latitude: position.coords.latitude,
+        accuracy: position.coords.accuracy
       };
-      alert(location);
+      console.log(location);
+      this.loadLeaflet();
     }
   }
 };

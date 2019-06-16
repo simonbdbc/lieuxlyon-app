@@ -29,6 +29,9 @@ Vue.component("toolbar-vue", {
         <v-toolbar-side-icon v-on:click="menu=!menu"></v-toolbar-side-icon>
         <v-toolbar-title>{{title}}</v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-btn icon v-if="bMyLocation">
+          <v-icon>my_location</v-icon>
+        </v-btn>
     </v-toolbar>
 </div>`,
   props: ["title"],
@@ -36,6 +39,7 @@ Vue.component("toolbar-vue", {
   data() {
     return {
       menu: false,
+      bMyLocation: false,
       items: [
         { title: "Home", icon: "home", path: "/" },
         { title: "Maps", icon: "map", path: "/maps" }

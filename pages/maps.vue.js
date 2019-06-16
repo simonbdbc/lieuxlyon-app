@@ -9,7 +9,6 @@ var mapsPage = {
     <div v-if="loading">Chargement...</div>
   </section>
   <section>
-  <v-btn v-on:click="getLocation();">Voir sur la carte</v-btn>
     <v-container fluid grid-list-lg>
        <div id="container-map"></div>
     </v-container>
@@ -25,6 +24,7 @@ var mapsPage = {
       layers: null,
       glData: null,
       myLocation: null,
+      bMyLocation: true,
       loading: true,
       errored: false
     };
@@ -43,7 +43,7 @@ var mapsPage = {
         })
         .catch(error => {
           console.log(error);
-          this.errored = true;
+          // this.errored = true;
         })
         .finally(() => {
           // console.log(this.glData);

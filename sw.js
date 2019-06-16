@@ -1,5 +1,5 @@
 // Initialize required variables - Cache Assets
-var shellCacheName = "lieuxlyon-v1.01";
+var shellCacheName = "lieuxlyon-v1.02";
 var filesToCache = [
   "./",
   "./index.html",

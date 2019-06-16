@@ -67,7 +67,8 @@ aside {
   }
 }
 
-#container-map {
+#container-map,
+#map {
   height: calc(100vh - 130px);
   max-height: 100%;
   z-index: 1;

@@ -136,7 +136,7 @@ var mapsPage = {
         longitude: position.coords.longitude,
         latitude: position.coords.latitude
       };
-      console.log(location);
+      alert(location);
     }
   }
 };

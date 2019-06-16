@@ -9,12 +9,19 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
+    name: "home",
     component: homePage
   },
   {
     path: "/maps",
+    name: "maps",
     component: mapsPage
   }
+  // {
+  //   path: "/maps/:PointCenter",
+  //   name: "mapsPointCenter",
+  //   component: mapsPage
+  // }
 ];
 
 let router = new VueRouter({

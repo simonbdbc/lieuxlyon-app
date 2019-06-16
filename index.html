@@ -93,8 +93,12 @@
   </head>
   <body>
     <div id="app">
-      <toolbar-vue :title="titre"></toolbar-vue>
-      <router-view></router-view>
+      <v-app>
+        <toolbar-vue :title="titre"></toolbar-vue>
+        <v-content>
+          <router-view></router-view>
+        </v-content>
+      </v-app>
     </div>
     <div id="sw-notification">
       A new version of this app is available. Click <a id="reload">here</a> to

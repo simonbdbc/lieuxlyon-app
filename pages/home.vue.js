@@ -1,8 +1,8 @@
 var homePage = {
   template: `
   <div class="page-container">
-    <v-card class="px-3 white--text" color="blue-grey darken-2" >
-      <span class="subheading">Voici la liste des points touristiques de Lyon :</span>
+    <v-card class="px-3">
+      <span class="subheading">Liste des points touristiques de Lyon :</span>
     </v-card>
 
   <section v-if="errored">
@@ -30,7 +30,7 @@ var homePage = {
                   </div>
                 </v-card-title>
                 <v-card-actions>
-                  <v-btn flat dark>Voir sur la carte</v-btn>
+                  <v-btn flat dark v-on:click="goToMap(item);">Voir sur la carte</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -43,11 +43,6 @@ var homePage = {
 
   data() {
     return {
-      isNavOpen: false,
-      isSidebarOpen: false,
-      sidebarContentToShow: null,
-      // cardItems: aTourismeJSON
-      // glPromise: API.get(),
       cardItems: null,
       glData: null,
       bShow: false,
@@ -58,14 +53,7 @@ var homePage = {
   mounted() {
     this.requestApi();
   },
-  created() {
-    // console.log(this.glData);
-    // if (this.glData != null) {
-    //   this.cardItems = this.glData;
-    // } else {
-    //   this.cardItems = aTourismeLocal;
-    // }
-  },
+  created() {},
   watch: {},
   methods: {
     requestApi() {
@@ -73,14 +61,14 @@ var homePage = {
         .get("http://192.168.33.12/api/data/read.php")
         .then(response => {
           this.glData = response.data.GL_DATA;
-          console.log(response);
+          // console.log(response);
         })
         .catch(error => {
           console.log(error);
           this.errored = true;
         })
         .finally(() => {
-          console.log(this.glData);
+          // console.log(this.glData);
           if (this.glData != null) {
             this.cardItems = this.glData;
           } else {
@@ -90,10 +78,12 @@ var homePage = {
           this.loading = false;
         });
     },
-    openSidebar: function(contentToShow) {
-      this.isSidebarOpen = true;
-      this.isNavOpen = false;
-      this.sidebarContentToShow = contentToShow;
+    goToMap(item) {
+      // console.log(item);
+      this.$router.replace({
+        name: "maps",
+        params: { PointCenter: item }
+      });
     }
   }
 };

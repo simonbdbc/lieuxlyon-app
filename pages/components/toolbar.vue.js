@@ -1,7 +1,7 @@
 Vue.component("toolbar-vue", {
   template: `
   <div class="toolbar-container">
-    <v-navigation-drawer absolute temporary v-model="menu">
+    <v-navigation-drawer fixed app v-model="menu">
         <v-list class="pa-1">
             <v-list-tile avatar>
                 <v-list-tile-avatar>
@@ -25,7 +25,7 @@ Vue.component("toolbar-vue", {
             </v-list-tile>
         </v-list>
     </v-navigation-drawer>
-    <v-toolbar>
+    <v-toolbar app fixed>
         <v-toolbar-side-icon v-on:click="menu=!menu"></v-toolbar-side-icon>
         <v-toolbar-title>{{title}}</v-toolbar-title>
         <v-spacer></v-spacer>

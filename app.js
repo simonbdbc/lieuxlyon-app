@@ -4,7 +4,6 @@
 //   });
 // }
 
-Vue.use(Vuetify);
 Vue.use(VueRouter);
 
 const routes = [

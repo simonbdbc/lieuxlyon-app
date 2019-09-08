@@ -35,6 +35,7 @@ router.beforeEach((to, from, next) => {
 
 var app = new Vue({
   el: "#app",
+  vuetify: new Vuetify(),
   watch: {},
   mounted() {},
   data: {

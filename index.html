@@ -1,171 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0 viewport-fit=cover"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Lieux Lyon</title>
-    <meta name="description" content="Lieux Lyon" />
-    <link rel="manifest" href="manifest.json" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="./images/icons/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./images/icons/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="./images/icons/favicon-16x16.png"
-    />
-    <link
-      rel="mask-icon"
-      href="./images/icons/safari-pinned-tab.svg"
-      color="#5bbad5"
-    />
-    <link rel="shortcut icon" href="./images/icons/favicon.ico" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta
-      name="msapplication-config"
-      content="./images/icons/browserconfig.xml"
-    />
-    <meta name="theme-color" content="#ffffff" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0 viewport-fit=cover"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Lieux Lyon</title>
+        <meta name="description" content="Lieux Lyon" />
+        <link rel="manifest" href="manifest.json" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="./images/icons/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="./images/icons/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="./images/icons/favicon-16x16.png"
+        />
+        <link
+            rel="mask-icon"
+            href="./images/icons/safari-pinned-tab.svg"
+            color="#5bbad5"
+        />
+        <link rel="shortcut icon" href="./images/icons/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+            name="msapplication-config"
+            content="./images/icons/browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons"
-      rel="stylesheet"
-    />
-    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-      integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-      crossorigin=""
-    />
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
+            rel="stylesheet"
+        />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+            integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+            crossorigin=""
+        />
 
-    <link rel="stylesheet" href="css/main.css" />
-    <!-- <link rel="stylesheet" href="css/screen.css" /> -->
-    <!-- <link rel="stylesheet" href="css/site.css" /> -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+            rel="stylesheet"
+        />
 
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script
-      src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-      crossorigin=""
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+        <link rel="stylesheet" href="css/main.css" />
+        <!-- <link rel="stylesheet" href="css/screen.css" /> -->
+        <!-- <link rel="stylesheet" href="css/site.css" /> -->
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"
-    />
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-  </head>
-  <body>
-    <div id="app">
-      <v-app>
-        <toolbar-vue :title="titre"></toolbar-vue>
-        <v-content>
-          <router-view></router-view>
-        </v-content>
-      </v-app>
-    </div>
-    <div id="sw-notification">
-      A new version of this app is available. Click <a id="reload">here</a> to
-      update.
-    </div>
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script
+            src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+            crossorigin=""
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-    <!-- development version, includes helpful console warnings -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <!-- production version, optimized for size and speed -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"
+        />
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <v-app>
+                <toolbar-vue :title="titre"></toolbar-vue>
+                <v-content>
+                    <router-view></router-view>
+                </v-content>
+            </v-app>
+        </div>
+        <div id="sw-notification">
+            A new version of this app is available. Click
+            <a id="reload">here</a> to update.
+        </div>
 
-    <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
-    <script src="https://unpkg.com/http-vue-loader"></script>
-    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- development version, includes helpful console warnings -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- production version, optimized for size and speed -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 
-    <script src="./services/api.js"></script>
-    <script src="./data/tourisme.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 
-    <!-- Vue Pages and Components -->
-    <script src="./pages/home.vue.js"></script>
-    <script src="./pages/maps.vue.js"></script>
-    <script src="./pages/components/toolbar.vue.js"></script>
-    <script src="./app.js"></script>
-    <script>
-      let newWorker;
+        <script src="https://unpkg.com/http-vue-loader"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-      function showUpdateBar() {
-        let notification = document.getElementById("sw-notification");
-        notification.className = "show";
-      }
+        <script src="./services/api.js"></script>
+        <script src="./data/tourisme.js"></script>
 
-      // The click event on the notification
-      document.getElementById("reload").addEventListener("click", function() {
-        newWorker.postMessage({ action: "skipWaiting" });
-      });
+        <!-- Vue Pages and Components -->
+        <script src="./pages/home.vue.js"></script>
+        <script src="./pages/maps.vue.js"></script>
+        <script src="./pages/components/toolbar.vue.js"></script>
+        <script src="./app.js"></script>
+        <script>
+            let newWorker;
 
-      if ("serviceWorker" in navigator) {
-        // Register the service worker
-        navigator.serviceWorker.register("/sw.js").then(function(registration) {
-          registration.addEventListener("updatefound", () => {
-            // An updated service worker has appeared in registration.installing!
-            newWorker = registration.installing;
+            function showUpdateBar() {
+                let notification = document.getElementById("sw-notification");
+                notification.className = "show";
+            }
 
-            newWorker.addEventListener("statechange", () => {
-              // Has service worker state changed?
-              switch (newWorker.state) {
-                case "installed":
-                  // There is a new service worker available, show the notification
-                  if (navigator.serviceWorker.controller) {
-                    // new update available
-                    showUpdateBar();
-                  }
-                  // No update available
-                  break;
-              }
-            });
-          });
-        });
-        let refreshing;
-        // The event listener that is fired when the service worker updates
-        // Here we reload the page
-        navigator.serviceWorker.addEventListener(
-          "controllerchange",
-          function() {
-            if (refreshing) return;
-            window.location.reload();
-            refreshing = true;
-          }
-        );
-      }
-    </script>
-  </body>
+            // The click event on the notification
+            document
+                .getElementById("reload")
+                .addEventListener("click", function() {
+                    newWorker.postMessage({ action: "skipWaiting" });
+                });
+
+            if ("serviceWorker" in navigator) {
+                // Register the service worker
+                navigator.serviceWorker
+                    .register("/sw.js")
+                    .then(function(registration) {
+                        registration.addEventListener("updatefound", () => {
+                            // An updated service worker has appeared in registration.installing!
+                            newWorker = registration.installing;
+
+                            newWorker.addEventListener("statechange", () => {
+                                // Has service worker state changed?
+                                switch (newWorker.state) {
+                                    case "installed":
+                                        // There is a new service worker available, show the notification
+                                        if (
+                                            navigator.serviceWorker.controller
+                                        ) {
+                                            // new update available
+                                            showUpdateBar();
+                                        }
+                                        // No update available
+                                        break;
+                                }
+                            });
+                        });
+                    });
+                let refreshing;
+                // The event listener that is fired when the service worker updates
+                // Here we reload the page
+                navigator.serviceWorker.addEventListener(
+                    "controllerchange",
+                    function() {
+                        if (refreshing) return;
+                        window.location.reload();
+                        refreshing = true;
+                    }
+                );
+            }
+        </script>
+    </body>
 </html>

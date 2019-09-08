@@ -80,7 +80,7 @@ var homePage = {
     },
     goToMap(item) {
       // console.log(item);
-      this.$router.replace({
+      this.$router.push({
         name: "maps",
         params: { PointCenter: item }
       });
